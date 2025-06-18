@@ -1,0 +1,13 @@
+[package]
+name = "rio"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libc = "0.2.174"
+log = "0.4.27"
+
+# Примеры
+[[example]]
+name = "select"
+path = "examples/select.rs"
