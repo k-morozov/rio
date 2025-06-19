@@ -1,6 +1,6 @@
 use std::{mem, ptr};
 
-use libc::{read, write, timeval};
+use libc::{read, timeval, write};
 
 fn main() {
     let mut pipe_fds = [0i32; 2];
@@ -35,7 +35,7 @@ fn main() {
             libc::FD_SET(read_fd, &mut readfds);
             libc::FD_SET(write_fd, &mut writefds);
 
-            let mut tm = timeval{
+            let mut tm = timeval {
                 tv_sec: 5,
                 tv_usec: 0,
             };
@@ -61,11 +61,12 @@ fn main() {
 
                 if unsafe { libc::FD_ISSET(read_fd, &readfds) } {
                     println!("Found read");
-                    
+
                     const MSG_LEN: usize = 128;
 
                     let mut buf = [0u8; MSG_LEN];
-                    let bytes = unsafe { read(read_fd, buf.as_mut_ptr() as *mut libc::c_void, MSG_LEN) };
+                    let bytes =
+                        unsafe { read(read_fd, buf.as_mut_ptr() as *mut libc::c_void, MSG_LEN) };
 
                     println!("read {} bytes", bytes);
 
