@@ -1,6 +1,6 @@
 use std::mem;
 
-use libc::{STDIN_FILENO, read, timeval, write};
+use libc::{read, write};
 
 fn main() {
     let mut pipe_fds = [0i32; 2];
@@ -72,15 +72,15 @@ fn main() {
                         println!("It's POLLOUT.");
 
                         let msg = b"Yet another message";
-                        let bytes =
-                            unsafe { write(write_fd, msg.as_ptr() as *const libc::c_void, msg.len()) };
+                        let bytes = unsafe {
+                            write(write_fd, msg.as_ptr() as *const libc::c_void, msg.len())
+                        };
                         println!("Wrote {} bytes", bytes);
                     }
                 }
             }
         }
     }
-    
 
     pipe_fds.iter().for_each(|fd| unsafe {
         libc::close(*fd);
